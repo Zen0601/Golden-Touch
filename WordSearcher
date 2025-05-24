@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Golden Touch - Word Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #word-list {
+      margin-bottom: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 0 auto;
+    }
+    td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+    td.selected {
+      background-color: #ffd700;
+    }
+    #score-board {
+      margin: 20px 0;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>The Golden Touch - Word Search</h1>
+  <p>Find the words related to the story of King Midas!</p>
+  <div id="word-list">
+    <strong>Words to find:</strong> KING, MIDAS, GOLD, TOUCH, GREED, WISH, CURSE, DAUGHTER, MAGIC
+  </div>
+  <div id="score-board">Score: <span id="score">0</span> / 9</div>
+  <table id="grid"></table>
+
+  <script>
+    const words = ["KING", "MIDAS", "GOLD", "TOUCH", "GREED", "WISH", "CURSE", "DAUGHTER", "MAGIC"];
+    const foundWords = new Set();
+    const gridSize = 12;
+    const grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(""));
+
+    function placeWord(word) {
+      const dir = Math.random() > 0.5 ? "H" : "V";
+      let placed = false;
+      while (!placed) {
+        const row = Math.floor(Math.random() * gridSize);
+        const col = Math.floor(Math.random() * gridSize);
+        if (
+          (dir === "H" && col + word.length <= gridSize &&
+           grid[row].slice(col, col + word.length).every(c => c === "")) ||
+          (dir === "V" && row + word.length <= gridSize &&
+           grid.slice(row, row + word.length).every(r => r[col] === ""))
+        ) {
+          for (let i = 0; i < word.length; i++) {
+            if (dir === "H") grid[row][col + i] = word[i];
+            else grid[row + i][col] = word[i];
+          }
+          placed = true;
+        }
+      }
+    }
+
+    words.forEach(placeWord);
+
+    for (let r = 0; r < gridSize; r++) {
+      for (let c = 0; c < gridSize; c++) {
+        if (!grid[r][c]) {
+          grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        }
+      }
+    }
+
+    const table = document.getElementById("grid");
+    let selected = "";
+
+    function updateScore() {
+      document.getElementById("score").textContent = foundWords.size;
+    }
+
+    grid.forEach((row, rIdx) => {
+      const tr = document.createElement("tr");
+      row.forEach((letter, cIdx) => {
+        const td = document.createElement("td");
+        td.textContent = letter;
+        td.addEventListener("click", () => {
+          td.classList.toggle("selected");
+          selected += td.textContent;
+          words.forEach(word => {
+            if (selected.includes(word) && !foundWords.has(word)) {
+              foundWords.add(word);
+              updateScore();
+              alert(`You found: ${word}`);
+              selected = "";
+              document.querySelectorAll("td.selected").forEach(cell => cell.classList.remove("selected"));
+            }
+          });
+          if (selected.length > 15) selected = ""; // reset if too long
+        });
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+  </script>
+</body>
+</html>
