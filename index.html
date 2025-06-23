@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +9,8 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
+      background: linear-gradient(to bottom right, #fff8dc, #ffd700);
+      background-attachment: fixed;
     }
     #word-list {
       margin-bottom: 20px;
@@ -27,6 +28,7 @@
       font-weight: bold;
       cursor: pointer;
       user-select: none;
+      background-color: white;
     }
     td.selected {
       background-color: #ffd700;
@@ -108,7 +110,7 @@
               document.querySelectorAll("td.selected").forEach(cell => cell.classList.remove("selected"));
             }
           });
-          if (selected.length > 15) selected = ""; // reset if too long
+          if (selected.length > 15) selected = "";
         });
         tr.appendChild(td);
       });
