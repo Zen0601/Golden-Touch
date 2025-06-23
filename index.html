@@ -6,37 +6,56 @@
   <title>The Golden Touch - Word Search</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Trebuchet MS', sans-serif;
       text-align: center;
       padding: 20px;
-      background: linear-gradient(to bottom right, #fff8dc, #ffd700);
+      background: linear-gradient(to bottom right, #f9e7b7, #ffd700);
       background-attachment: fixed;
+      color: #333;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #6b4e16;
+      text-shadow: 1px 1px #fff7e6;
+    }
+    p {
+      font-size: 1.2em;
     }
     #word-list {
       margin-bottom: 20px;
+      font-size: 1.1em;
+    }
+    #score-board {
+      margin: 20px 0;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #6b4e16;
     }
     table {
       border-collapse: collapse;
       margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
     td {
       border: 1px solid #ccc;
       padding: 10px;
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       text-align: center;
       font-weight: bold;
+      font-size: 1.2em;
       cursor: pointer;
       user-select: none;
-      background-color: white;
+      background-color: #fffef5;
+      transition: background-color 0.3s;
+    }
+    td:hover {
+      background-color: #f9e7b7;
     }
     td.selected {
       background-color: #ffd700;
-    }
-    #score-board {
-      margin: 20px 0;
-      font-size: 1.2em;
-      font-weight: bold;
+      color: #000;
     }
   </style>
 </head>
